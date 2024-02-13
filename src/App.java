@@ -16,7 +16,7 @@ public class App {
         // Creating a new instance of the Scanner class to read user input
         Scanner input = new Scanner(System.in);
         // Clear the console screen
-        clearConsole();
+        Console.clear();
 
         // Display the title of the game
         System.out.println("\u001B[32m***********************************");
@@ -28,11 +28,11 @@ public class App {
         // Display menu options with color formatting
         System.out.println("\u001B[32m[1] Play");
         System.out.println("[2] Show Rules");
-        System.out.println("[3] Leave\u001B[0m");
+        System.out.println("[3] Exit\u001B[0m");
         System.out.println(" ");
         System.out.print("Choose an option : ");
         // Read user choice from input
-        int choice = input.nextInt();
+        String choice = input.next();
 
         // Switch statement to handle user's choice
         switch (choice) {
@@ -64,7 +64,7 @@ public class App {
     // Method to handle the "Play" option
     public static void play() {
         // Clear the console screen
-        clearConsole();
+        Console.clear();
         // Display the title for the play section
         System.out.println("\u001B[32m***********************************");
         System.out.println("               Play               ");
@@ -75,7 +75,7 @@ public class App {
     // Method to handle the "Show Rules" option
     public static void showRules() {
         // Clear the console screen
-        clearConsole();
+        Console.clear();
         // Display the title for the rules section
         System.out.println("\u001B[32m***********************************");
         System.out.println("         These are the rules         ");
@@ -86,7 +86,7 @@ public class App {
     // Method to handle the "Leave" option
     public static void leave() {
         // Clear the console screen
-        clearConsole();
+        Console.clear();
         // Display a goodbye message
         System.out.println("\u001B[32m***********************************");
         System.out.println("            Goodbye !            ");
