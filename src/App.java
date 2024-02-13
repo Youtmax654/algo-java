@@ -1,6 +1,5 @@
 // Importing the Scanner class from the java.util package
 import java.util.Scanner;
-
 // Importing the Console class from the Utils package
 import Utils.Console;
 
@@ -35,7 +34,7 @@ public class App {
         // Read user choice from input
         String choice = input.next();
 
-        // Using a switch statement to perform different actions based on the user's choice
+        // Switch statement to handle user's choice
         switch (choice) {
             case "1":
                 // If the user chooses 1, call the play method
@@ -50,8 +49,8 @@ public class App {
                 leave();
                 break;
             default:
-                // If the user chooses any other number, display an error message and call the menu method again
-                System.out.println("Wrong choice, please try again.");
+                // Display a message for an invalid choice
+                System.out.println("\u001B[31mInvalid choice\u001B[0m");
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
@@ -62,7 +61,7 @@ public class App {
         input.close();
     }
 
-    // The play method that displays the "Play" message
+    // Method to handle the "Play" option
     public static void play() {
         // Clear the console screen
         Console.clear();
