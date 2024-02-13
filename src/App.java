@@ -1,6 +1,5 @@
 // Importing the Scanner class from the java.util package
 import java.util.Scanner;
-
 // Importing the Console class from the Utils package
 import Utils.Console;
 
@@ -16,21 +15,26 @@ public class App {
     public static void menu() {
         // Creating a new instance of the Scanner class to read user input
         Scanner input = new Scanner(System.in);
+        // Clear the console screen
+        clearConsole();
 
-        // Clearing the console screen
-        Console.clear();
-
-        // Displaying the menu options
+        // Display the title of the game
+        System.out.println("\u001B[32m***********************************");
+        System.out.println("         Block by Bloc         ");
+        System.out.println("***********************************\u001B[0m");
+        System.out.println(" ");
         System.out.println("Menu :");
-        System.out.println("1. Play");
-        System.out.println("2. Show the rules");
-        System.out.println("3. Leave");
-        System.out.println("Please select an option : ");
+        System.out.println(" ");
+        // Display menu options with color formatting
+        System.out.println("\u001B[32m[1] Play");
+        System.out.println("[2] Show Rules");
+        System.out.println("[3] Leave\u001B[0m");
+        System.out.println(" ");
+        System.out.print("Choose an option : ");
+        // Read user choice from input
+        int choice = input.nextInt();
 
-        // Reading the user's choice
-        String choice = input.next();
-
-        // Using a switch statement to perform different actions based on the user's choice
+        // Switch statement to handle user's choice
         switch (choice) {
             case "1":
                 // If the user chooses 1, call the play method
@@ -45,8 +49,8 @@ public class App {
                 leave();
                 break;
             default:
-                // If the user chooses any other number, display an error message and call the menu method again
-                System.out.println("Wrong choice, please try again.");
+                // Display a message for an invalid choice
+                System.out.println("\u001B[31mInvalid choice\u001B[0m");
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
@@ -57,30 +61,35 @@ public class App {
         input.close();
     }
 
-    // The play method that displays the "Play" message
+    // Method to handle the "Play" option
     public static void play() {
-        // Clearing the console screen
-        Console.clear();
-
-        // Displaying the "Play" message
-        System.out.println("Play");
+        // Clear the console screen
+        clearConsole();
+        // Display the title for the play section
+        System.out.println("\u001B[32m***********************************");
+        System.out.println("               Play               ");
+        System.out.println("***********************************\u001B[0m");
+        // Add your game logic here
     }
 
-    // The showRules method that displays the rules
+    // Method to handle the "Show Rules" option
     public static void showRules() {
-        // Clearing the console screen
-        Console.clear();
-
-        // Displaying the rules
-        System.out.println("Here are the rules");
+        // Clear the console screen
+        clearConsole();
+        // Display the title for the rules section
+        System.out.println("\u001B[32m***********************************");
+        System.out.println("         These are the rules         ");
+        System.out.println("***********************************\u001B[0m");
+        // Add your rules here
     }
 
-    // The leave method that displays the "Goodbye !" message
+    // Method to handle the "Leave" option
     public static void leave() {
-        // Clearing the console screen
-        Console.clear();
-
-        // Displaying the "Goodbye !" message
-        System.out.println("Goodbye !");
+        // Clear the console screen
+        clearConsole();
+        // Display a goodbye message
+        System.out.println("\u001B[32m***********************************");
+        System.out.println("            Goodbye !            ");
+        System.out.println("***********************************\u001B[0m");
     }
 }
