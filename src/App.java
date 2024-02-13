@@ -40,9 +40,18 @@ public class App {
     }
 
     public static void showRules() {
+        Scanner input = new Scanner(System.in);
         Console.clear();
-        System.out.println("Voici les règles");
+        System.out.println("----- les règles -----\n - Tu possède un pion de couleur qui vas etre le tiens tout le long de la partie.\n - Ton pion peux ce deplacé horizontalement et verticalement mais que d'une seule casse.\n - Après s'être déplacer tu es obliger de casser un bloc.\n - Un bloc detruit est un trou dans le terrain donc aucun joueur peux s'y poser.");
+        System.out.println("\n----- Petite specificité -----\n - Un joueur ne peux pas ce déplacer sur une case detruite / hors du terrain ou sur un joueur.\n - Un joueur ne peux pas casser un bloc déjà detruite / sous un joueur ou hors du terrain.\n - Un joueur est considérer comme un bloc");
+        System.out.println("\n----- Conditions de victoire / défaite -----\n - La victoire est accorder a la derniere personne a etre libre d'encore ce deplacer\n La defaite est donner a celui qui n'est plus capable de ce deplacer sur le terrain 'donc bloquer'.");
+        System.out.println("\n 1. Retour");
+        int choice = input.nextInt();
+        if (choice == 1) {
+            menu();
+        }
     }
+    
 
     public static void leave() {
         Console.clear();
