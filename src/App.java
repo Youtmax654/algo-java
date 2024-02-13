@@ -1,13 +1,19 @@
+// Importing the Scanner class from the java.util package
 import java.util.Scanner;
+// Importing the Console class from the Utils package
+import Utils.Console;
 
+// Defining the App class
 public class App {
+    // The main method that serves as the entry point of the program
     public static void main(String[] args) throws Exception {
-        // Entry point of the program, calling the menu method
+        // Calling the menu method to display the menu options
         menu();
     }
 
-    // Method to display the main menu
+    // The menu method that displays the menu options and handles user input
     public static void menu() {
+        // Creating a new instance of the Scanner class to read user input
         Scanner input = new Scanner(System.in);
         // Clear the console screen
         clearConsole();
@@ -30,20 +36,29 @@ public class App {
 
         // Switch statement to handle user's choice
         switch (choice) {
-            case 1:
+            case "1":
+                // If the user chooses 1, call the play method
                 play();
                 break;
-            case 2:
+            case "2":
+                // If the user chooses 2, call the showRules method
                 showRules();
                 break;
-            case 3:
+            case "3":
+                // If the user chooses 3, call the leave method
                 leave();
                 break;
             default:
                 // Display a message for an invalid choice
                 System.out.println("\u001B[31mInvalid choice\u001B[0m");
-                break;
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                menu();
         }
+        input.close();
     }
 
     // Method to handle the "Play" option
@@ -76,11 +91,5 @@ public class App {
         System.out.println("\u001B[32m***********************************");
         System.out.println("            Goodbye !            ");
         System.out.println("***********************************\u001B[0m");
-    }
-
-    // Method to clear the console screen
-    public static void clearConsole() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 }
