@@ -21,10 +21,13 @@ public class App {
         Console.clear();
 
         // Displaying the menu options
-        System.out.println("Menu :");
-        System.out.println("1. Play");
-        System.out.println("2. Show the rules");
-        System.out.println("3. Leave");
+        System.out.println("--------------------");
+        System.out.println("Main Menu");
+        System.out.println("--------------------");
+        System.out.println("[1] Play");
+        System.out.println("[2] Show the rules");
+        System.out.println("[3] Exit");
+        System.out.println("--------------------");
         System.out.println("Please select an option : ");
 
         // Reading the user's choice
