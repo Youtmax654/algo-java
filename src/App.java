@@ -51,44 +51,79 @@ public class App {
     }
 
     public static void play() {
-        String player1 = "\u001B[31m" + Player.getRandomUsername() + "\u001B[0m";
-        String player2 = "\u001B[34m" + Player.getRandomUsername() + "\u001B[0m";
-        while (player1 == player2) {
-            player2 = Player.getRandomUsername();
+        Scanner input = new Scanner(System.in);
+        Player player1 = new Player(4, 5, "\u001B[31m" + Player.getRandomUsername() + "\u001B[0m");
+        Player player2 = new Player(5, 5, "\u001B[34m" + Player.getRandomUsername() + "\u001B[0m");
+        while (player1.username == player2.username) {
+            player2.username = "\u001B[34m" + Player.getRandomUsername() + "\u001B[0m";
         }
-
-        Console.clear();
-        System.out.println("\u001B[32m***********************************");
-        System.out.println("               Game               ");
-        System.out.println("***********************************\u001B[0m\n");
-
-        System.out.println(
-                player1 + " VS " + player2 + "\n");
-
-        // Generate the game board
-        String[][] gameBoard = new String[10][11];
-
-        // Fill the game board with the coordinates
-        char row = 'A';
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 11; j++) {
-                if (j > 8)
-                    gameBoard[i][j] = row + Integer.toString(j + 1);
-                else
-                    gameBoard[i][j] = row + Integer.toString(j + 1) + " ";
-            }
-            row++;
-        }
-
-        // Call the printBoard method to display the game board
-        gameBoard = Board.showPlayer(gameBoard, 2);
-        Board.printBoard(gameBoard);
 
         Random random = new Random();
         int currentPlayerIndex = random.nextInt(2) + 1;
-        String currentPlayer = currentPlayerIndex == 1 ? player1 : player2;
+        Player currentPlayer = currentPlayerIndex == 1 ? player1 : player2;
 
-        System.out.println("\nIt's your turn " + currentPlayer + " !");
+        while (true) {
+            String currentPlayerUsername = currentPlayer.username;
+            Console.clear();
+            System.out.println("\u001B[32m***********************************");
+            System.out.println("               Game               ");
+            System.out.println("***********************************\u001B[0m\n");
+
+            System.out.println(player1.username + " VS " + player2.username + "\n");
+
+            // Generate the game board
+            String[][] gameBoard = new String[10][11];
+
+            // Fill the game board with the coordinates
+            char row = 'A';
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 11; j++) {
+                    if (j > 8)
+                        gameBoard[i][j] = row + Integer.toString(j + 1);
+                    else
+                        gameBoard[i][j] = row + Integer.toString(j + 1) + " ";
+                }
+                row++;
+            }
+
+            // Call the printBoard method to display the game board
+            gameBoard = Board.addPlayer(gameBoard, player1, player2);
+            Board.printBoard(gameBoard);
+
+            System.out.println("\nIt's your turn " + currentPlayerUsername + " !\n");
+            System.out.println("\u001B[32m[Z] Up [Q] Left [S] Down [D] Right\u001B[0m\n");
+            System.out.println("Choose a direction : ");
+            String direction = input.next();
+            switch (direction) {
+                case "Z", "z":
+                    currentPlayer.positionX -= 1;
+                    break;
+                case "S", "s":
+                    currentPlayer.positionX += 1;
+                    break;
+                case "Q", "q":
+                    currentPlayer.positionY -= 1;
+                    break;
+                case "D", "d":
+                    currentPlayer.positionY += 1;
+                    break;
+                default:
+                    System.out.println("\u001B[31mInvalid choice\u001B[0m");
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    continue;
+            }
+            if (currentPlayerIndex == 1) {
+                currentPlayer = player2;
+                currentPlayerIndex = 2;
+            } else {
+                currentPlayer = player1;
+                currentPlayerIndex = 1;
+            }
+        }
     }
 
     // Method to handle the "Show Rules" option
