@@ -1,26 +1,21 @@
+// import java.util.Random;
 
 // Importing the Scanner class from the java.util package
+import java.util.Random;
 import java.util.Scanner;
 
 // Importing the Console class from the Utils package
 import Utils.Console;
 
-// Defining the App class
 public class App {
-    // The main method that serves as the entry point of the program
     public static void main(String[] args) throws Exception {
-        // Calling the menu method to display the menu options
         menu();
     }
 
-    // The menu method that displays the menu options and handles user input
     public static void menu() {
-        // Creating a new instance of the Scanner class to read user input
         Scanner input = new Scanner(System.in);
-        // Clear the console screen
         Console.clear();
 
-        // Display the title of the game
         System.out.println("\u001B[32m***********************************");
         System.out.println("         Block by Bloc         ");
         System.out.println("***********************************\u001B[0m\n");
@@ -30,25 +25,20 @@ public class App {
         System.out.println("[2] Show Rules");
         System.out.println("[3] Exit\u001B[0m\n");
         System.out.print("Choose an option : ");
-        // Read user choice from input
-        String mainChoice = input.next();
 
-        // Switch statement to handle user's mainChoice
-        switch (mainChoice) {
+        String choice = input.next();
+
+        switch (choice) {
             case "1":
-                // If the user chooses 1, call the play method
                 play();
                 break;
             case "2":
-                // If the user chooses 2, call the showRules method
                 showRules();
                 break;
             case "3":
-                // If the user chooses 3, call the leave method
                 leave();
                 break;
             default:
-                // Display a message for an invalid choice
                 System.out.println("\u001B[31mInvalid choice\u001B[0m");
                 try {
                     Thread.sleep(2000);
@@ -60,29 +50,45 @@ public class App {
         input.close();
     }
 
-    // Method to handle the "Play" option
     public static void play() {
-        // Clear the console screen
+        String player1 = "\u001B[31m" + Player.getRandomUsername() + "\u001B[0m";
+        String player2 = "\u001B[34m" + Player.getRandomUsername() + "\u001B[0m";
+        while (player1 == player2) {
+            player2 = Player.getRandomUsername();
+        }
+
         Console.clear();
-        // Display the title for the play section
         System.out.println("\u001B[32m***********************************");
-        System.out.println("               Play               ");
-        System.out.println("***********************************\u001B[0m");
+        System.out.println("               Game               ");
+        System.out.println("***********************************\u001B[0m\n");
+
+        System.out.println(
+                player1 + " VS " + player2 + "\n");
+
         // Generate the game board
-        String[][] gameBoard = {
-                { "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "A11" },
-                { "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10", "B11" },
-                { "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "C11" },
-                { "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10", "D11" },
-                { "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10", "E11" },
-                { "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11" },
-                { "G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9", "G10", "G11" },
-                { "H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10", "H11" },
-                { "I1", "I2", "I3", "I4", "I5", "I6", "I7", "I8", "I9", "I10", "I11" },
-                { "J1", "J2", "J3", "J4", "J5", "J6", "J7", "J8", "J9", "J10", "J11" },
-        };
+        String[][] gameBoard = new String[10][11];
+
+        // Fill the game board with the coordinates
+        char row = 'A';
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 11; j++) {
+                if (j > 8)
+                    gameBoard[i][j] = row + Integer.toString(j + 1);
+                else
+                    gameBoard[i][j] = row + Integer.toString(j + 1) + " ";
+            }
+            row++;
+        }
+
         // Call the printBoard method to display the game board
+        gameBoard = Board.showPlayer(gameBoard, 2);
         Board.printBoard(gameBoard);
+
+        Random random = new Random();
+        int currentPlayerIndex = random.nextInt(2) + 1;
+        String currentPlayer = currentPlayerIndex == 1 ? player1 : player2;
+
+        System.out.println("\nIt's your turn " + currentPlayer + " !");
     }
 
     // Method to handle the "Show Rules" option
@@ -91,7 +97,6 @@ public class App {
         Scanner input = new Scanner(System.in);
         // Clear the console screen
         Console.clear();
-        // Display the title for the rules section
         System.out.println("\u001B[32m***********************************");
         System.out.println("               Rules            ");
         System.out.println("***********************************\u001B[0m\n");
@@ -131,9 +136,7 @@ public class App {
 
     // Method to handle the "Leave" option
     public static void leave() {
-        // Clear the console screen
         Console.clear();
-        // Display a goodbye message
         System.out.println("\u001B[32m***********************************");
         System.out.println("            Goodbye !            ");
         System.out.println("***********************************\u001B[0m");
