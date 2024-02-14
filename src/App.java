@@ -1,26 +1,22 @@
-// import java.util.Random;
-
-// Importing the Scanner class from the java.util package
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-// Importing the Console class from the Utils package
 import Utils.Console;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        menu();
+        menu(); // Call the menu method to start the game
     }
 
+    // Method to display the main menu
     public static void menu() {
         Scanner input = new Scanner(System.in);
         Console.clear();
-
         System.out.println("\u001B[32m***********************************");
         System.out.println("         Block by Bloc         ");
         System.out.println("***********************************\u001B[0m\n");
         System.out.println("Menu :\n");
-        // Display menu options with color formatting
         System.out.println("\u001B[32m[1] Play");
         System.out.println("[2] Show Rules");
         System.out.println("[3] Exit\u001B[0m\n");
@@ -30,107 +26,180 @@ public class App {
 
         switch (choice) {
             case "1":
-                play();
+                play(); // Call the play method to start the game
                 break;
             case "2":
-                showRules();
+                showRules(); // Call the showRules method to display the rules
                 break;
             case "3":
-                leave();
+                leave(); // Call the leave method to exit the game
                 break;
             default:
                 System.out.println("\u001B[31mInvalid choice\u001B[0m");
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                menu();
+                Console.sleep(2000);
+                menu(); // If an invalid choice is entered, display the menu again
         }
         input.close();
     }
 
+    // Method to start the game
     public static void play() {
+        ArrayList<String> destroyedBlocks = new ArrayList<String>();
+
+        // Create a scanner object to read user input
         Scanner input = new Scanner(System.in);
+
+        // Create two player objects with random usernames and initial positions
         Player player1 = new Player(4, 5, "\u001B[31m" + Player.getRandomUsername() + "\u001B[0m");
         Player player2 = new Player(5, 5, "\u001B[34m" + Player.getRandomUsername() + "\u001B[0m");
-        while (player1.username == player2.username) {
-            player2.username = "\u001B[34m" + Player.getRandomUsername() + "\u001B[0m";
-        }
 
+        // Randomly select the current player
         Random random = new Random();
         int currentPlayerIndex = random.nextInt(2) + 1;
         Player currentPlayer = currentPlayerIndex == 1 ? player1 : player2;
+        Player otherPlayer = currentPlayer == player1 ? player2 : player1;
 
         while (true) {
-            String currentPlayerUsername = currentPlayer.username;
-            Console.clear();
-            System.out.println("\u001B[32m***********************************");
-            System.out.println("               Game               ");
-            System.out.println("***********************************\u001B[0m\n");
+            movingPhase(player1, player2, destroyedBlocks, currentPlayerIndex, currentPlayer, otherPlayer, input);
+            breakingPhase(player1, player2, destroyedBlocks, currentPlayerIndex, currentPlayer, otherPlayer, input);
 
-            System.out.println(player1.username + " VS " + player2.username + "\n");
-
-            // Generate the game board
-            String[][] gameBoard = new String[10][11];
-
-            // Fill the game board with the coordinates
-            char row = 'A';
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < 11; j++) {
-                    if (j > 8)
-                        gameBoard[i][j] = row + Integer.toString(j + 1);
-                    else
-                        gameBoard[i][j] = row + Integer.toString(j + 1) + " ";
-                }
-                row++;
-            }
-
-            // Call the printBoard method to display the game board
-            gameBoard = Board.addPlayer(gameBoard, player1, player2);
-            Board.printBoard(gameBoard);
-
-            System.out.println("\nIt's your turn " + currentPlayerUsername + " !\n");
-            System.out.println("\u001B[32m[Z] Up [Q] Left [S] Down [D] Right\u001B[0m\n");
-            System.out.println("Choose a direction : ");
-            String direction = input.next();
-            switch (direction) {
-                case "Z", "z":
-                    currentPlayer.positionX -= 1;
-                    break;
-                case "S", "s":
-                    currentPlayer.positionX += 1;
-                    break;
-                case "Q", "q":
-                    currentPlayer.positionY -= 1;
-                    break;
-                case "D", "d":
-                    currentPlayer.positionY += 1;
-                    break;
-                default:
-                    System.out.println("\u001B[31mInvalid choice\u001B[0m");
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    continue;
-            }
+            // Switch the player turns
             if (currentPlayerIndex == 1) {
                 currentPlayer = player2;
+                otherPlayer = player1;
                 currentPlayerIndex = 2;
             } else {
                 currentPlayer = player1;
+                otherPlayer = player2;
                 currentPlayerIndex = 1;
             }
         }
     }
 
-    // Method to handle the "Show Rules" option
+    private static void movingPhase(Player player1, Player player2, ArrayList<String> destroyedBlocks,
+            int currentPlayerIndex,
+            Player currentPlayer, Player otherPlayer, Scanner input) {
+        // Start the game loop
+        for (int i = 0; i <= 3; i++) {
+            // Get the username of the current player
+            String currentPlayerUsername = currentPlayer.username;
+
+            // Display the game board
+            displayGameBoard(player1, player2, destroyedBlocks);
+
+            // Prompt the current player for a direction
+            System.out.println("\nIt's your turn " + currentPlayerUsername + " !\n");
+            System.out.println("\u001B[32m[Z] Up [Q] Left [S] Down [D] Right\u001B[0m\n");
+            System.out.println("Choose a direction : ");
+            String direction = input.next();
+
+            // Move the current player based on the chosen direction
+            switch (direction) {
+                case "Z", "z":
+                    currentPlayer.move(-1, 0);
+                    if (currentPlayer.forbiddenPosition(otherPlayer, -1, 0, i)) {
+                        continue;
+                    } else {
+                        break;
+                    }
+                case "S", "s":
+                    currentPlayer.move(1, 0);
+                    if (currentPlayer.forbiddenPosition(otherPlayer, 1, 0, i)) {
+                        continue;
+                    } else {
+                        break;
+                    }
+                case "Q", "q":
+                    currentPlayer.move(0, -1);
+                    if (currentPlayer.forbiddenPosition(otherPlayer, 0, -1, i)) {
+                        continue;
+                    } else {
+                        break;
+                    }
+                case "D", "d":
+                    currentPlayer.move(0, 1);
+                    if (currentPlayer.forbiddenPosition(otherPlayer, 0, 1, i)) {
+                        continue;
+                    } else {
+                        break;
+                    }
+                default:
+                    System.out.println("\u001B[31mInvalid choice\u001B[0m");
+                    System.out.println("\u001B[31m" + (3 - i) + " attempts left\u001B[0m");
+                    Console.sleep(2000);
+                    continue;
+            }
+            break;
+        }
+    }
+
+    private static void breakingPhase(Player player1, Player player2, ArrayList<String> destroyedBlocks,
+            int currentPlayerIndex,
+            Player currentPlayer, Player otherPlayer, Scanner input) {
+        for (int i = 0; i <= 3; i++) {
+            // Get the username of the current player
+            String currentPlayerUsername = currentPlayer.username;
+            // Display the game board again after the player's move
+            displayGameBoard(player1, player2, destroyedBlocks);
+
+            System.out.println("\nIt's your turn " + currentPlayerUsername + " !");
+            // Prompt the current player to break a block
+            System.out.println("\nChoose a block to break : ");
+            String coordinates = input.next();
+            if (isValidCoordinates(coordinates, 10, 11)) {
+                if (destroyedBlocks.contains(coordinates)) {
+                    System.out.println("\u001B[31mThis block is already destroyed\u001B[0m");
+                    System.out.println("\u001B[31m" + (3 - i) + " attempts left\u001B[0m");
+                    Console.sleep(2000);
+                    continue;
+                } else {
+                    destroyedBlocks.add(coordinates);
+                }
+            } else {
+                System.out.println("\u001B[31mInvalid coordinates\u001B[0m");
+                System.out.println("\u001B[31m" + (3 - i) + " attempts left\u001B[0m");
+                Console.sleep(2000);
+                continue;
+            }
+            break;
+        }
+    }
+
+    // Méthode pour vérifier si les coordonnées sont valides
+    public static boolean isValidCoordinates(String coordinates, int numRows, int numCols) {
+        coordinates = coordinates.toUpperCase();
+        if (!coordinates.matches("[A-Z]\\d+")) {
+            return false;
+        }
+        char letter = coordinates.charAt(0);
+        int number = Character.getNumericValue(coordinates.charAt(1));
+        if (letter < 'A' || letter > 'A' + numCols - 1) {
+            return false;
+        }
+        if (number < 1 || number > numRows) {
+            return false;
+        }
+        return true;
+    }
+
+    private static void displayGameBoard(Player player1, Player player2, ArrayList<String> destroyedBlocks) {
+        // Create a 10x11 game board
+        String[][] gameBoard = Board.createBoard(10, 11);
+        for (String block : destroyedBlocks) {
+            gameBoard = Board.destroyBlock(gameBoard, block);
+        }
+        Console.clear();
+        System.out.println("\u001B[32m***********************************");
+        System.out.println("               Game               ");
+        System.out.println("***********************************\u001B[0m\n");
+        System.out.println(player1.username + " VS " + player2.username + "\n");
+        gameBoard = Board.addPlayer(gameBoard, player1, player2);
+        Board.printBoard(gameBoard);
+    }
+
+    // Method to display the rules
     public static void showRules() {
-        // Creating a new instance of the Scanner class to read user input
         Scanner input = new Scanner(System.in);
-        // Clear the console screen
         Console.clear();
         System.out.println("\u001B[32m***********************************");
         System.out.println("               Rules            ");
@@ -150,26 +219,20 @@ public class App {
         System.out.println("\n\u001B[32m[1] Go back to the main menu \u001B[0m\n");
         System.out.print("Choose an option : ");
         String rulesChoice = input.next();
-        // If the user prompt 1 return to the main menu
         switch (rulesChoice) {
             case "1":
-                menu();
+                menu(); // Call the menu method to go back to the main menu
                 break;
             default:
-                // Display a message for an invalid choice
                 System.out.println("\u001B[31mInvalid choice\u001B[0m");
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                showRules();
+                Console.sleep(2000);
+                showRules(); // If an invalid choice is entered, display the rules again
                 break;
         }
         input.close();
     }
 
-    // Method to handle the "Leave" option
+    // Method to exit the game
     public static void leave() {
         Console.clear();
         System.out.println("\u001B[32m***********************************");
