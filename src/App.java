@@ -1,5 +1,6 @@
 // Importing the Scanner class from the java.util package
 import java.util.Scanner;
+
 // Importing the Console class from the Utils package
 import Utils.Console;
 
@@ -21,21 +22,18 @@ public class App {
         // Display the title of the game
         System.out.println("\u001B[32m***********************************");
         System.out.println("         Block by Bloc         ");
-        System.out.println("***********************************\u001B[0m");
-        System.out.println(" ");
-        System.out.println("Menu :");
-        System.out.println(" ");
+        System.out.println("***********************************\u001B[0m\n");
+        System.out.println("Menu :\n");
         // Display menu options with color formatting
         System.out.println("\u001B[32m[1] Play");
         System.out.println("[2] Show Rules");
-        System.out.println("[3] Exit\u001B[0m");
-        System.out.println(" ");
+        System.out.println("[3] Exit\u001B[0m\n");
         System.out.print("Choose an option : ");
         // Read user choice from input
-        String choice = input.next();
+        String mainChoice = input.next();
 
-        // Switch statement to handle user's choice
-        switch (choice) {
+        // Switch statement to handle user's mainChoice
+        switch (mainChoice) {
             case "1":
                 // If the user chooses 1, call the play method
                 play();
@@ -74,26 +72,42 @@ public class App {
 
     // Method to handle the "Show Rules" option
     public static void showRules() {
-              // Clear the console screen
+        Scanner input = new Scanner(System.in);
+        // Clear the console screen
         Console.clear();
         // Display the title for the rules section
         System.out.println("\u001B[32m***********************************");
-        System.out.println("         These are the rules         ");
-        System.out.println("***********************************\u001B[0m");
-        // Add your rules here
-
-        Scanner input = new Scanner(System.in);
-        Console.clear();
-        System.out.println("----- les règles -----\n - Tu possède un pion de couleur qui vas etre le tiens tout le long de la partie.\n - Ton pion peux ce deplacé horizontalement et verticalement mais que d'une seule casse.\n - Après s'être déplacer tu es obliger de casser un bloc.\n - Un bloc detruit est un trou dans le terrain donc aucun joueur peux s'y poser.");
-        System.out.println("\n----- Petite specificité -----\n - Un joueur ne peux pas ce déplacer sur une case detruite / hors du terrain ou sur un joueur.\n - Un joueur ne peux pas casser un bloc déjà detruite / sous un joueur ou hors du terrain.\n - Un joueur est considérer comme un bloc");
-        System.out.println("\n----- Conditions de victoire / défaite -----\n - La victoire est accorder a la derniere personne a etre libre d'encore ce deplacer\n La defaite est donner a celui qui n'est plus capable de ce deplacer sur le terrain 'donc bloquer'.");
-        System.out.println("\n 1. Retour");
-        int choice = input.nextInt();
+        System.out.println("               Rules            ");
+        System.out.println("***********************************\u001B[0m\n");
+        System.out.println("- You have a colored pawn which will be yours throughout the game.\n- Your pawn can move horizontally and vertically, but only by one case.\n- After moving, you have to break a block.\n- A destroyed block is a hole in the ground, so no player can land on it.\n");
+        System.out.println("\u001B[32m***********************************");
+        System.out.println("           Restrictions            ");
+        System.out.println("***********************************\u001B[0m\n");
+        System.out.println("- A player can't move on a destroyed/outside square or on a player.\n- A player cannot break an already destroyed block, under a player or outside the field.\n- A player is considered as a block\n");
+        System.out.println("\u001B[32m***********************************");
+        System.out.println("      How to win / lose        ");
+        System.out.println("***********************************\u001B[0m\n");
+        System.out.println("- A player cannot move onto a destroyed square, off the board or onto a player.\n- A player who can no longer move is blocked and loses the game.");
+        System.out.println("\n\u001B[32m [1] Go back to the main menu \u001B[0m\n");
+        System.out.print("Choose an option : ");
+        String rulesChoice = input.next();
         // If the user prompt 1 return to the main menu
-        if (choice == 1) {
-            menu();
+        switch (rulesChoice) {
+            case "1":
+                menu();
+                break;
+            default:
+                // Display a message for an invalid choice
+                System.out.println("\u001B[31mInvalid choice\u001B[0m");
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                showRules();
+                break;
         }
-
+        input.close();
     }
     
 
