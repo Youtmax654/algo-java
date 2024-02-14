@@ -88,7 +88,7 @@ public class App {
         System.out.println("      How to win / lose        ");
         System.out.println("***********************************\u001B[0m\n");
         System.out.println("- A player cannot move onto a destroyed square, off the board or onto a player.\n- A player who can no longer move is blocked and loses the game.");
-        System.out.println("\n\u001B[32m [1] Go back to the main menu \u001B[0m\n");
+        System.out.println("\n\u001B[32m[1] Go back to the main menu \u001B[0m\n");
         System.out.print("Choose an option : ");
         String rulesChoice = input.next();
         // If the user prompt 1 return to the main menu
