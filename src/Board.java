@@ -12,17 +12,10 @@ public class Board {
     }
   }
 
-  public static String[][] showPlayer(String[][] board, int player) {
+  public static String[][] addPlayer(String[][] board, Player player1, Player player2) {
     String[] pawns = { "\u001B[31m \u25A0 \u001B[0m", "\u001B[34m \u25A0 \u001B[0m" };
-
-    switch (player) {
-      case 2:
-        board[4][5] = pawns[0];
-        board[5][5] = pawns[1];
-        return board;
-      default:
-        break;
-    }
+    board[player1.positionX][player1.positionY] = pawns[0];
+    board[player2.positionX][player2.positionY] = pawns[1];
     return board;
   }
 }
