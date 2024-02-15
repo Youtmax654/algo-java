@@ -99,7 +99,15 @@ public class App {
         while (true) {
             movingPhase(player1, player2, destroyedBlocks, currentPlayerIndex, currentPlayer, otherPlayer, input);
             breakingPhase(player1, player2, destroyedBlocks, currentPlayerIndex, currentPlayer, otherPlayer, input);
-            cantMove(player1, player2, destroyedBlocks, currentPlayerIndex, currentPlayer, gameBoard);
+            gameBoard = displayGameBoard(player1, player2, destroyedBlocks, gameBoard);
+            if (player1.isBlocked(player2, gameBoard)) {
+                gameOver(input, player1, player2);
+                break;
+            }
+            if (player2.isBlocked(player1, gameBoard)) {
+                gameOver(input, player2, player1);
+                break;
+            }
 
             // Switch the player turns
             if (currentPlayerIndex == 1) {
@@ -206,41 +214,8 @@ public class App {
                 continue;
             }
             break;
-        }    }
-
-    public static void cantMove(Player player1, Player player2, ArrayList<String> destroyedBlocks, int currentPlayerIndex, Player currentPlayer, String[][] gameBoard) {
-        displayGameBoard(player1, player2, destroyedBlocks, Board.createBoard(10, 11));
-    
-        // Check if the player is surrounded by empty squares
-        int x = currentPlayer.positionX;
-        int y = currentPlayer.positionY;
-    
-        // Check adjacent squares
-        if ((gameBoard[x - 1][y] == "   ") && (gameBoard[x + 1][y] == "   ") && (gameBoard[x][y - 1] == "   ") && (gameBoard[x][y + 1] == "   ")) {
-            Scanner input = new Scanner(System.in);
-            System.out.println("----- " + currentPlayer.username + " is surrounded by empty boxes. The game is over -----");
-            String choice = input.next();
-    
-            switch (choice) {
-                case "1":
-                    play(); // Call the play method to start the game
-                    break;
-                case "2":
-                    menu(); // Call the menu method to go back to the menu
-                    break;
-                case "3":
-                    leave(); // Call the leave method to exit the game
-                    break;
-                default:
-                    System.out.println("\u001B[31mInvalid choice\u001B[0m");
-                    Console.sleep(2000);
-                    menu(); // If an invalid choice is entered, display the menu again
-            }
-            input.close();
         }
     }
-    
-    
 
     // Méthode pour vérifier si les coordonnées sont valides
     public static boolean isValidCoordinates(String coordinates, int numRows, int numCols) {
@@ -262,6 +237,35 @@ public class App {
             return false;
         }
         return true;
+    }
+
+    private static void gameOver(Scanner input, Player loser, Player winner) {
+        Console.clear();
+        System.out.println("\u001B[32m***********************************");
+        System.out.println("          End of the game          ");
+        System.out.println("***********************************\u001B[0m\n");
+        System.out.println("\u001B[31m" + loser.username + " is blocked and loses the game\u001B[0m");
+        System.out.println("\u001B[32m" + winner.username + " wins the game\u001B[0m\n");
+        System.out.println("\u001B[32m" + loser.username + " sucks at the game, don't play ever again\u001B[0m\n");
+        System.out.println("\u001B[32m[1] Play again\n[2] Go back to the main menu\n[3] Exit\u001B[32m\u001B[0m\n");
+        System.out.println("Choose an option :");
+        String choice = input.next();
+        switch (choice) {
+            case "1":
+                play();
+                break;
+            case "2":
+                menu();
+                break;
+            case "3":
+                leave();
+                break;
+            default:
+                System.out.println("\u001B[31mInvalid choice\u001B[0m");
+                Console.sleep(2000);
+                gameOver(input, loser, winner);
+                break;
+        }
     }
 
     private static String[][] displayGameBoard(Player player1, Player player2, ArrayList<String> destroyedBlocks,

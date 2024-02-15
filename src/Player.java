@@ -76,4 +76,19 @@ public class Player {
       return false;
     }
   }
+
+  public boolean isBlocked(Player otherPlayer, String[][] gameBoard) {
+    if ((this.positionX - 1 < 0 || this.positionX - 1 == otherPlayer.positionX
+        || gameBoard[this.positionX - 1][this.positionY] == "   ")
+        && (this.positionX + 1 > 9 || this.positionX + 1 == otherPlayer.positionX
+            || gameBoard[this.positionX + 1][this.positionY] == "   ")
+        && (this.positionY - 1 < 0 || this.positionY - 1 == otherPlayer.positionY
+            || gameBoard[this.positionX][this.positionY - 1] == "   ")
+        && (this.positionY + 1 > 10 || this.positionY + 1 == otherPlayer.positionY
+            || gameBoard[this.positionX][this.positionY + 1] == "   ")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
