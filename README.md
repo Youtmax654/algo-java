@@ -15,6 +15,10 @@ cd block-by-block
 java -jar block-by-block.jar
 ```
 
+## Documentation
+
+To read the documentation, open javadoc folder and then open index.html
+
 ## Folder Structure
 
 The workspace contains two folders by default, where:
