@@ -28,7 +28,7 @@ public class Player {
     this.positionY += deltaY;
   }
 
-  public boolean forbiddenPosition(Player otherPlayer, int deltaX, int deltaY, int attempts) {
+  public boolean forbiddenPosition(Player otherPlayer, int deltaX, int deltaY, int attempts, String[][] gameBoard) {
     // Check if the new position is outside the board boundaries
     if ((this.positionX < 0) || (this.positionX > 9) || (this.positionY < 0)
         || (this.positionY > 10)) {
@@ -45,6 +45,14 @@ public class Player {
       this.positionX -= deltaX;
       this.positionY -= deltaY;
       System.out.println("\u001B[31mYou can't move to the same position as the other player!\u001B[0m");
+      System.out.println("\u001B[31m" + (3 - attempts) + " attempts left\u001B[0m");
+      Console.sleep(2000);
+      return true;
+    } else if (gameBoard[this.positionX][this.positionY] == "   ") {
+      // Revert the position changes
+      this.positionX -= deltaX;
+      this.positionY -= deltaY;
+      System.out.println("\u001B[31mYou can't move to a destroyed block!\u001B[0m");
       System.out.println("\u001B[31m" + (3 - attempts) + " attempts left\u001B[0m");
       Console.sleep(2000);
       return true;
