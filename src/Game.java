@@ -59,11 +59,24 @@ public class Game {
         // Clear the console screen
         Console.clear();
       }
-    } while (player2Name.length() < 2 || player2Name.length() > 10);
+
+      // Check if the entered name is the same as Player 1's name
+      if (player2Name.equals(player1Name)) {
+        // Display an error message in red indicating that the names must be
+        // different
+        System.out.println("\u001B[31mThe name must be different from Player 1's name.\u001B[0m");
+
+        // Pause execution for 2 seconds
+        Console.sleep(2000);
+
+        // Clear the console screen
+        Console.clear();
+      }
+    } while (player2Name.length() < 2 || player2Name.length() > 10 || player2Name.equals(player1Name));
 
     // Create Player objects with colored names based on user input
-    Player player1 = new Player(4, 5, "\u001B[31m" + player1Name + "\u001B[0m");
-    Player player2 = new Player(5, 5, "\u001B[34m" + player2Name + "\u001B[0m");
+    Player player1 = new Player(4, 5, player1Name);
+    Player player2 = new Player(5, 5, player2Name);
 
     // Randomly select the current player
     Random random = new Random();
@@ -123,6 +136,8 @@ public class Game {
    */
   private static void movingPhase(Player player1, Player player2, ArrayList<String> destroyedBlocks,
       int currentPlayerIndex, Player currentPlayer, Player otherPlayer, Scanner input) {
+    String player1Username = "\u001B[31m" + player1.username + "\u001B[0m";
+    String player2Username = "\u001B[34m" + player2.username + "\u001B[0m";
     // Start the game loop
     for (int i = 0; i <= 3; i++) {
       // Get the username of the current player
@@ -132,8 +147,11 @@ public class Game {
       String[][] gameBoard = Board.createBoard(10, 11);
       gameBoard = Board.display(player1, player2, destroyedBlocks, gameBoard);
 
-      // Prompt the current player for a direction
-      System.out.println("\nIt's your turn " + currentPlayerUsername + " !\n");
+      if (currentPlayerIndex == 1) {
+        System.out.println("\nIt's your turn " + player1Username + " !\n");
+      } else {
+        System.out.println("\nIt's your turn " + player2Username + " !\n");
+      }
       System.out.println("\u001B[32m[Z] Up [Q] Left [S] Down [D] Right\u001B[0m\n");
       System.out.println("Choose a direction : ");
       String direction = input.next();
@@ -195,6 +213,8 @@ public class Game {
    */
   private static void breakingPhase(Player player1, Player player2, ArrayList<String> destroyedBlocks,
       int currentPlayerIndex, Player currentPlayer, Player otherPlayer, Scanner input) {
+    String player1Username = "\u001B[31m" + player1.username + "\u001B[0m";
+    String player2Username = "\u001B[34m" + player2.username + "\u001B[0m";
     for (int i = 0; i <= 3; i++) {
       // Get the username of the current player
       String currentPlayerUsername = currentPlayer.username;
@@ -202,7 +222,11 @@ public class Game {
       // Display the game board again after the player's move
       Board.display(player1, player2, destroyedBlocks, Board.createBoard(10, 11));
 
-      System.out.println("\nIt's your turn " + currentPlayerUsername + " !");
+      if (currentPlayerIndex == 1) {
+        System.out.println("\nIt's your turn " + player1Username + " !\n");
+      } else {
+        System.out.println("\nIt's your turn " + player2Username + " !\n");
+      }
       // Prompt the current player to break a block
       System.out.println("\nChoose a block to break : ");
       String coordinates = input.next();
@@ -257,43 +281,5 @@ public class Game {
       return false;
     }
     return true;
-  }
-
-  /**
-   * Displays the rules of the game and allows the player to go back to the main
-   * menu.
-   */
-  public static void showRules() {
-    Scanner input = new Scanner(System.in);
-    Console.clear();
-    System.out.println("\u001B[32m***********************************");
-    System.out.println("               Rules            ");
-    System.out.println("***********************************\u001B[0m\n");
-    System.out.println(
-        "- You have a colored pawn which will be yours throughout the game.\n- Your pawn can move horizontally and vertically, but only by one case.\n- After moving, you have to break a block.\n- A destroyed block is a hole in the ground, so no player can land on it.\n");
-    System.out.println("\u001B[32m***********************************");
-    System.out.println("           Restrictions            ");
-    System.out.println("***********************************\u001B[0m\n");
-    System.out.println(
-        "- A player can't move on a destroyed/outside square or on a player.\n- A player cannot break an already destroyed block, under a player or outside the field.\n- A player is considered as a block\n");
-    System.out.println("\u001B[32m***********************************");
-    System.out.println("      How to win / lose        ");
-    System.out.println("***********************************\u001B[0m\n");
-    System.out.println(
-        "- A player cannot move onto a destroyed square, off the board or onto a player.\n- A player who can no longer move is blocked and loses the game.");
-    System.out.println("\n\u001B[32m[1] Go back to the main menu \u001B[0m\n");
-    System.out.print("Choose an option : ");
-    String rulesChoice = input.next();
-    switch (rulesChoice) {
-      case "1":
-        Menu.main(); // Call the menu method to go back to the main menu
-        break;
-      default:
-        System.out.println("\u001B[31mInvalid choice\u001B[0m");
-        Console.sleep(2000);
-        showRules(); // If an invalid choice is entered, display the rules again
-        break;
-    }
-    input.close();
   }
 }
