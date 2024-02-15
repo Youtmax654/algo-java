@@ -84,8 +84,9 @@ public class App {
             // Get the username of the current player
             String currentPlayerUsername = currentPlayer.username;
 
-            // Display the game board
-            displayGameBoard(player1, player2, destroyedBlocks);
+            String[][] gameBoard = Board.createBoard(10, 11);
+            // Display the game board again after the player's move
+            gameBoard = displayGameBoard(player1, player2, destroyedBlocks, gameBoard);
 
             // Prompt the current player for a direction
             System.out.println("\nIt's your turn " + currentPlayerUsername + " !\n");
@@ -97,28 +98,28 @@ public class App {
             switch (direction) {
                 case "Z", "z":
                     currentPlayer.move(-1, 0);
-                    if (currentPlayer.forbiddenPosition(otherPlayer, -1, 0, i)) {
+                    if (currentPlayer.forbiddenPosition(otherPlayer, -1, 0, i, gameBoard)) {
                         continue;
                     } else {
                         break;
                     }
                 case "S", "s":
                     currentPlayer.move(1, 0);
-                    if (currentPlayer.forbiddenPosition(otherPlayer, 1, 0, i)) {
+                    if (currentPlayer.forbiddenPosition(otherPlayer, 1, 0, i, gameBoard)) {
                         continue;
                     } else {
                         break;
                     }
                 case "Q", "q":
                     currentPlayer.move(0, -1);
-                    if (currentPlayer.forbiddenPosition(otherPlayer, 0, -1, i)) {
+                    if (currentPlayer.forbiddenPosition(otherPlayer, 0, -1, i, gameBoard)) {
                         continue;
                     } else {
                         break;
                     }
                 case "D", "d":
                     currentPlayer.move(0, 1);
-                    if (currentPlayer.forbiddenPosition(otherPlayer, 0, 1, i)) {
+                    if (currentPlayer.forbiddenPosition(otherPlayer, 0, 1, i, gameBoard)) {
                         continue;
                     } else {
                         break;
@@ -140,7 +141,7 @@ public class App {
             // Get the username of the current player
             String currentPlayerUsername = currentPlayer.username;
             // Display the game board again after the player's move
-            displayGameBoard(player1, player2, destroyedBlocks);
+            displayGameBoard(player1, player2, destroyedBlocks, Board.createBoard(10, 11));
 
             System.out.println("\nIt's your turn " + currentPlayerUsername + " !");
             // Prompt the current player to break a block
@@ -182,9 +183,9 @@ public class App {
         return true;
     }
 
-    private static void displayGameBoard(Player player1, Player player2, ArrayList<String> destroyedBlocks) {
+    private static String[][] displayGameBoard(Player player1, Player player2, ArrayList<String> destroyedBlocks,
+            String[][] gameBoard) {
         // Create a 10x11 game board
-        String[][] gameBoard = Board.createBoard(10, 11);
         for (String block : destroyedBlocks) {
             gameBoard = Board.destroyBlock(gameBoard, block);
         }
@@ -195,6 +196,7 @@ public class App {
         System.out.println(player1.username + " VS " + player2.username + "\n");
         gameBoard = Board.addPlayer(gameBoard, player1, player2);
         Board.printBoard(gameBoard);
+        return gameBoard;
     }
 
     // Method to display the rules
