@@ -1,6 +1,19 @@
-## Getting Started
+## Installation
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Install the game with git clone in your Terminal
+
+```bash
+git clone https://github.com/Youtmax654/block-by-block.git
+```
+
+## Getting started
+
+To start the game, use Java to open the .jar file
+
+```bash
+cd block-by-block
+java -jar block-by-block.jar
+```
 
 ## Folder Structure
 
