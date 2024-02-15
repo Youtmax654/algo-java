@@ -4,9 +4,8 @@ import java.util.ArrayList;
  * This class represents a game board.
  */
 public class Board {
-
   /**
-   * Creates a game board with empty cells.
+   * Creates a game board with the specified number of rows and columns.
    *
    * @param rows The number of rows in the board.
    * @param cols The number of columns in the board.
@@ -97,7 +96,8 @@ public class Board {
     System.out.println("\u001B[32m***********************************");
     System.out.println("               Game               ");
     System.out.println("***********************************\u001B[0m\n");
-    System.out.println(player1.username + " VS " + player2.username + "\n");
+    System.out.println(
+        "\u001B[31m" + player1.username + "\u001B[0m" + " VS " + "\u001B[34m" + player2.username + "\u001B[0m\n");
     gameBoard = Board.addPlayer(gameBoard, player1, player2);
     Board.printBoard(gameBoard);
     return gameBoard;
