@@ -4,9 +4,8 @@ import java.util.ArrayList;
  * This class represents a game board.
  */
 public class Board {
-
   /**
-   * Creates a game board with empty cells.
+   * Creates a game board with the specified number of rows and columns.
    *
    * @param rows The number of rows in the board.
    * @param cols The number of columns in the board.

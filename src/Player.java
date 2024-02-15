@@ -4,9 +4,12 @@ import java.util.Random;
  * Represents a player in a game with a position and username.
  */
 public class Player {
-  public int positionX; // The X-coordinate of the player's position
-  public int positionY; // The Y-coordinate of the player's position
-  public String username; // The username of the player
+  // The X-coordinate of the player
+  public int positionX;
+  // The Y-coordinate of the player
+  public int positionY;
+  // The username of the player
+  public String username;
 
   /**
    * Constructor to initialize the player's position and username.

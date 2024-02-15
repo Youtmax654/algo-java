@@ -29,4 +29,48 @@ public class App {
         System.out.println("            Goodbye !            ");
         System.out.println("***********************************\u001B[0m");
     }
+
+    /**
+     * Converts a given string to binary representation.
+     *
+     * @param texte The string to be converted.
+     * @return The binary representation of the given string.
+     */
+    /**
+     * Converts a given text string to its corresponding binary representation.
+     *
+     * @param texte The text string to be converted.
+     * @return The binary representation of the given text string.
+     */
+    public static String stringToBinary(String texte) {
+        byte[] octets = texte.getBytes(); // Convert the text string to bytes
+        StringBuilder binaire = new StringBuilder(); // StringBuilder to store the binary representation
+
+        for (byte octet : octets) { // Iterate through each byte in the text string
+            for (int i = 7; i >= 0; i--) { // Iterate through each bit in the byte (from left to right)
+                binaire.append((octet >> i) & 1); // Append the binary representation of the bit to the StringBuilder
+            }
+        }
+
+        return binaire.toString(); // Return the binary representation as a string
+    }
+
+    /**
+     * Converts a given binary string to its corresponding text representation.
+     *
+     * @param binaire The binary string to be converted.
+     * @return The text representation of the given binary string.
+     */
+    public static String binaryToString(String binaire) {
+        StringBuilder texte = new StringBuilder();
+
+        for (int i = 0; i < binaire.length(); i += 8) {
+            String octetBinaire = binaire.substring(i, i + 8); // Extracts 8 bits from the binary string
+            int octetDecimal = Integer.parseInt(octetBinaire, 2); // Converts the 8-bit binary string to decimal
+            texte.append((char) octetDecimal); // Appends the character representation of the decimal value to the
+                                               // StringBuilder
+        }
+
+        return texte.toString(); // Returns the text representation as a string
+    }
 }
