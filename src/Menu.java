@@ -169,13 +169,26 @@ public class Menu {
     }
     System.out.println("\n");
     // Display the menu options
-    System.out.println("\u001B[32m[1] Go back to the main menu\u001B[0m\n");
+    System.out.println("\u001B[32m[1] Sort ascending [2] Sort descending");
+    System.out.println("[3] Go back to the main menu\u001B[0m\n");
     System.out.println("Choose an option :");
     // Read the user's choice
     String choice = input.next();
     // Perform action based on user's choice
     switch (choice) {
       case "1":
+        // Sort the scoreboard in ascending order
+        Scoreboard.sortAsc();
+        // Display the scoreboard again
+        showScoreboard();
+        break;
+      case "2":
+        // Sort the scoreboard in descending order
+        Scoreboard.sortDesc();
+        // Display the scoreboard again
+        showScoreboard();
+        break;
+      case "3":
         // Go back to the main menu
         Menu.main();
         break;

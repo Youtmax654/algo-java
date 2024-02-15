@@ -35,4 +35,36 @@ public class Scoreboard {
   public static ArrayList<Integer> getScores() {
     return scores;
   }
+
+  public static void sortAsc() {
+    for (int i = 0; i < scores.size(); i++) {
+      for (int j = i + 1; j < scores.size(); j++) {
+        if (scores.get(i) > scores.get(j)) {
+          int tempScore = scores.get(i);
+          scores.set(i, scores.get(j));
+          scores.set(j, tempScore);
+
+          String tempPlayer = players.get(i);
+          players.set(i, players.get(j));
+          players.set(j, tempPlayer);
+        }
+      }
+    }
+  }
+
+  public static void sortDesc() {
+    for (int i = 0; i < scores.size(); i++) {
+      for (int j = i + 1; j < scores.size(); j++) {
+        if (scores.get(i) < scores.get(j)) {
+          int tempScore = scores.get(i);
+          scores.set(i, scores.get(j));
+          scores.set(j, tempScore);
+
+          String tempPlayer = players.get(i);
+          players.set(i, players.get(j));
+          players.set(j, tempPlayer);
+        }
+      }
+    }
+  }
 }
