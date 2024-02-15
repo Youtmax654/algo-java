@@ -7,7 +7,15 @@ public class Console {
    * Method that clear the console screen.
    */
   public static void clear() {
-      System.out.print("\033[H\033[2J");
-      System.out.flush();
+    System.out.print("\033c");
+    System.out.flush();
+  }
+
+  public static void sleep(int time) {
+    try {
+      Thread.sleep(time);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
   }
 }
