@@ -140,9 +140,6 @@ public class Game {
     String player2Username = "\u001B[34m" + player2.username + "\u001B[0m";
     // Start the game loop
     for (int i = 0; i <= 3; i++) {
-      // Get the username of the current player
-      String currentPlayerUsername = currentPlayer.username;
-
       // Create and display the game board
       String[][] gameBoard = Board.createBoard(10, 11);
       gameBoard = Board.display(player1, player2, destroyedBlocks, gameBoard);
@@ -216,9 +213,6 @@ public class Game {
     String player1Username = "\u001B[31m" + player1.username + "\u001B[0m";
     String player2Username = "\u001B[34m" + player2.username + "\u001B[0m";
     for (int i = 0; i <= 3; i++) {
-      // Get the username of the current player
-      String currentPlayerUsername = currentPlayer.username;
-
       // Display the game board again after the player's move
       Board.display(player1, player2, destroyedBlocks, Board.createBoard(10, 11));
 
