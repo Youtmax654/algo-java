@@ -153,6 +153,11 @@ public class App {
                     System.out.println("\u001B[31m" + (3 - i) + " attempts left\u001B[0m");
                     Console.sleep(2000);
                     continue;
+                } else if (player1.onCoordinate(coordinates) || player2.onCoordinate(coordinates)) {
+                    System.out.println("\u001B[31mYou can't break a block under a player\u001B[0m");
+                    System.out.println("\u001B[31m" + (3 - i) + " attempts left\u001B[0m");
+                    Console.sleep(2000);
+                    continue;
                 } else {
                     destroyedBlocks.add(coordinates);
                 }
@@ -173,7 +178,12 @@ public class App {
             return false;
         }
         char letter = coordinates.charAt(0);
-        int number = Character.getNumericValue(coordinates.charAt(1));
+        int number;
+        if (coordinates.length() > 2) {
+            number = Integer.parseInt(coordinates.substring(1, 3)) - 1;
+        } else {
+            number = Character.getNumericValue(coordinates.charAt(1)) - 1;
+        }
         if (letter < 'A' || letter > 'A' + numCols - 1) {
             return false;
         }

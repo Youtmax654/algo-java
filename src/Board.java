@@ -41,7 +41,12 @@ public class Board {
   public static String[][] destroyBlock(String[][] gameBoard, String coordinate) {
     coordinate = coordinate.toUpperCase();
     int row = coordinate.charAt(0) - 'A';
-    int col = Character.getNumericValue(coordinate.charAt(1)) - 1;
+    int col;
+    if (coordinate.length() > 2) {
+      col = Integer.parseInt(coordinate.substring(1, 3)) - 1;
+    } else {
+      col = Character.getNumericValue(coordinate.charAt(1)) - 1;
+    }
     gameBoard[row][col] = "   ";
     return gameBoard;
   }
