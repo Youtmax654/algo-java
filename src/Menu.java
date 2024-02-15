@@ -3,11 +3,22 @@ import java.util.Scanner;
 
 /**
  * The Menu class represents the main menu of the game.
+ * It displays the menu options and processes the user's choice.
+ * The user can choose to play the game, load scores, show rules, show
+ * scoreboard,
+ * save scores, or exit the game.
+ * Invalid choices will display an error message and prompt the user to choose
+ * again.
  */
 public class Menu {
-
   /**
-   * Method to display the main menu and handle user choices.
+   * The main method is the entry point of the program.
+   * It displays the menu options and processes the user's choice.
+   * The user can choose to play the game, load scores, show rules, show
+   * scoreboard,
+   * save scores, or exit the game.
+   * Invalid choices will display an error message and prompt the user to choose
+   * again.
    */
   public static void main() {
     // Create instances of the Scanner classes
@@ -24,9 +35,11 @@ public class Menu {
     // Display the menu options
     System.out.println("Menu :\n");
     System.out.println("\u001B[32m[1] Play");
-    System.out.println("[2] Show Rules");
-    System.out.println("[3] Show scoreboard");
-    System.out.println("[4] Exit\u001B[0m\n");
+    System.out.println("[2] Load scores");
+    System.out.println("[3] Show Rules");
+    System.out.println("[4] Show scoreboard");
+    System.out.println("[5] Save scores");
+    System.out.println("[6] Exit\u001B[0m\n");
     System.out.print("Choose an option : ");
 
     // Read user input for menu choice
@@ -38,12 +51,20 @@ public class Menu {
         Game.play(); // Call the play method to start the game
         break;
       case "2":
-        showRules(); // Call the showRules method to display the rules
+        Scoreboard.loadScores(); // Call the loadScores method to load the scores from a file
+        main(); // Display the menu again
         break;
       case "3":
-        showScoreboard(); // Call the show method to display the scoreboard
+        showRules(); // Call the showRules method to display the rules
         break;
       case "4":
+        showScoreboard(); // Call the show method to display the scoreboard
+        break;
+      case "5":
+        Scoreboard.saveScores(); // Call the saveScores method to save the scores to a file
+        main(); // Display the menu again
+        break;
+      case "6":
         App.leave(); // Call the leave method to exit the game
         break;
       default:
@@ -55,9 +76,10 @@ public class Menu {
   }
 
   /**
-   * Displays the game over screen and handles the user's choice for game over
-   * options.
-   * 
+   * Displays the game over screen and handles the game over options.
+   * Updates the scores of the winner and loser players based on the game result.
+   * Provides options to play again, go back to the main menu, or exit the game.
+   *
    * @param loser  The player who lost the game.
    * @param winner The player who won the game.
    */
@@ -76,10 +98,14 @@ public class Menu {
     System.out.println("\u001B[31m" + loser.username + " is blocked. He loses the game and loses 2 points\u001B[0m");
     System.out.println("\u001B[32m" + winner.username + " wins the game and wins 5 points\u001B[0m\n");
 
+    // Update the scores of the winner and loser players
     Scoreboard.addScore(winner.username, 5);
     Scoreboard.addScore(loser.username, -2);
 
+    // Display additional message for the loser player
     System.out.println("\u001B[32m" + loser.username + " sucks at the game, don't play ever again\u001B[0m\n");
+
+    // Display game over options
     System.out.println("\u001B[32m[1] Play again\n[2] Go back to the main menu\n[3] Exit\u001B[32m\u001B[0m\n");
     System.out.println("Choose an option :");
 
@@ -107,8 +133,8 @@ public class Menu {
   }
 
   /**
-   * Displays the rules of the game and allows the player to go back to the main
-   * menu.
+   * Displays the rules of the game and allows the user to navigate back to the
+   * main menu.
    */
   public static void showRules() {
     Scanner input = new Scanner(System.in);
@@ -144,6 +170,10 @@ public class Menu {
     input.close();
   }
 
+  /**
+   * Displays the scoreboard and provides options to sort the scoreboard or go
+   * back to the main menu.
+   */
   public static void showScoreboard() {
     ArrayList<String> players = Scoreboard.getPlayers();
     ArrayList<Integer> scores = Scoreboard.getScores();

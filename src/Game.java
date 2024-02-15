@@ -3,11 +3,14 @@ import java.util.Random;
 import java.util.Scanner;
 
 /**
- * The Game class represents the main logic for executing and playing the game.
+ * The Game class represents a game session.
+ * It contains methods to start and play the game.
  */
 public class Game {
   /**
-   * Method to start the game.
+   * The play method starts and manages the game.
+   * It prompts the users to enter their names, creates player objects,
+   * randomly selects the current player, and executes the game loop.
    */
   public static void play() {
     // List to keep track of destroyed blocks
@@ -136,14 +139,17 @@ public class Game {
    */
   private static void movingPhase(Player player1, Player player2, ArrayList<String> destroyedBlocks,
       int currentPlayerIndex, Player currentPlayer, Player otherPlayer, Scanner input) {
+    // Display the usernames of the players with colored formatting
     String player1Username = "\u001B[31m" + player1.username + "\u001B[0m";
     String player2Username = "\u001B[34m" + player2.username + "\u001B[0m";
+
     // Start the game loop
     for (int i = 0; i <= 3; i++) {
       // Create and display the game board
       String[][] gameBoard = Board.createBoard(10, 11);
       gameBoard = Board.display(player1, player2, destroyedBlocks, gameBoard);
 
+      // Prompt the current player to choose a direction
       if (currentPlayerIndex == 1) {
         System.out.println("\nIt's your turn " + player1Username + " !\n");
       } else {
