@@ -49,9 +49,46 @@ public class App {
         // Create a scanner object to read user input
         Scanner input = new Scanner(System.in);
 
-        // Create two player objects with random usernames and initial positions
-        Player player1 = new Player(4, 5, "\u001B[31m" + Player.getRandomUsername() + "\u001B[0m");
-        Player player2 = new Player(5, 5, "\u001B[34m" + Player.getRandomUsername() + "\u001B[0m");
+        // Player 1 Name
+        String player1Name;
+        do {
+            // Prompt the user to enter a name for Player 1 (2-10 characters)
+            System.out.print("Enter name for Player 1 (2-10 characters): ");
+            player1Name = input.next();
+            // Check if the entered name length is not within the range of 2 to 10
+            // characters
+            if (player1Name.length() < 2 || player1Name.length() > 10) {
+                // Display an error message in red indicating the required name length
+                System.out.println("\u001B[31mThe name must be between 2 and 10 characters.\u001B[0m");
+                // Pause execution for 2 seconds
+                Console.sleep(2000);
+                // Clear the console screen
+                Console.clear();
+
+            }
+        } while (player1Name.length() < 2 || player1Name.length() > 10);
+
+        // Player 2 Name
+        String player2Name;
+        do {
+            // Prompt the user to enter a name for Player 2 (2-10 characters)
+            System.out.print("Enter name for Player 2 (2-10 characters): ");
+            player2Name = input.next();
+            // Check if the entered name length is not within the range of 2 to 10
+            // characters
+            if (player2Name.length() < 2 || player2Name.length() > 10) {
+                // Display an error message in red indicating the required name length
+                System.out.println("\u001B[31mThe name must be between 2 and 10 characters.\u001B[0m");
+                // Pause execution for 2 seconds
+                Console.sleep(2000);
+                // Clear the console screen
+                Console.clear();
+            }
+        } while (player2Name.length() < 2 || player2Name.length() > 10);
+
+        // Create Player objects with colored names based on user input
+        Player player1 = new Player(4, 5, "\u001B[31m" + player1Name + "\u001B[0m");
+        Player player2 = new Player(5, 5, "\u001B[34m" + player2Name + "\u001B[0m");
 
         // Randomly select the current player
         Random random = new Random();
