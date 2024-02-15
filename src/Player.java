@@ -1,20 +1,31 @@
 import java.util.Random;
 
-import Utils.Console;
-
+/**
+ * Represents a player in a game with a position and username.
+ */
 public class Player {
   public int positionX; // The X-coordinate of the player's position
   public int positionY; // The Y-coordinate of the player's position
   public String username; // The username of the player
 
-  // Constructor to initialize the player's position and username
+  /**
+   * Constructor to initialize the player's position and username.
+   *
+   * @param positionX The initial X-coordinate of the player.
+   * @param positionY The initial Y-coordinate of the player.
+   * @param username  The username of the player.
+   */
   public Player(int positionX, int positionY, String username) {
     this.positionX = positionX;
     this.positionY = positionY;
     this.username = username;
   }
 
-  // Method to generate a random username from a predefined list
+  /**
+   * Generates a random username from a predefined list of names.
+   *
+   * @return A randomly selected username.
+   */
   public static String getRandomUsername() {
     String[] names = { "Ahri", "Yasuo", "Lux", "Lee Sin", "Jinx", "Akali", "Thresh", "Jhin", "Annie" };
     Random random = new Random();
@@ -22,12 +33,29 @@ public class Player {
     return name;
   }
 
-  // Method to move the player's position by a given deltaX and deltaY
+  /**
+   * Moves the player's position by a given deltaX and deltaY.
+   *
+   * @param deltaX The change in the X-coordinate.
+   * @param deltaY The change in the Y-coordinate.
+   */
   public void move(int deltaX, int deltaY) {
     this.positionX += deltaX;
     this.positionY += deltaY;
   }
 
+  /**
+   * Checks if the new position is outside the board boundaries or conflicts with
+   * another player's position.
+   * Also, checks if the new position is on a destroyed block on the game board.
+   *
+   * @param otherPlayer The other player to check for conflicts.
+   * @param deltaX      The change in the X-coordinate.
+   * @param deltaY      The change in the Y-coordinate.
+   * @param attempts    The remaining attempts to move.
+   * @param gameBoard   The 2D array representing the game board.
+   * @return True if the new position is forbidden, false otherwise.
+   */
   public boolean forbiddenPosition(Player otherPlayer, int deltaX, int deltaY, int attempts, String[][] gameBoard) {
     // Check if the new position is outside the board boundaries
     if ((this.positionX < 0) || (this.positionX > 9) || (this.positionY < 0)
@@ -61,6 +89,12 @@ public class Player {
     }
   }
 
+  /**
+   * Checks if the player is on a specific coordinate.
+   *
+   * @param coordinate The coordinate to check (e.g., "A1").
+   * @return True if the player is on the specified coordinate, false otherwise.
+   */
   public boolean onCoordinate(String coordinate) {
     coordinate = coordinate.toUpperCase();
     int row = coordinate.charAt(0) - 'A';
@@ -70,13 +104,16 @@ public class Player {
     } else {
       col = Character.getNumericValue(coordinate.charAt(1)) - 1;
     }
-    if ((this.positionX == row) && (this.positionY == col)) {
-      return true;
-    } else {
-      return false;
-    }
+    return (this.positionX == row) && (this.positionY == col);
   }
 
+  /**
+   * Checks if the player is blocked on all four sides.
+   *
+   * @param otherPlayer The other player to check for blocking.
+   * @param gameBoard   The 2D array representing the game board.
+   * @return True if the player is blocked on all four sides, false otherwise.
+   */
   public boolean isBlocked(Player otherPlayer, String[][] gameBoard) {
     if ((this.positionX - 1 < 0 || this.positionX - 1 == otherPlayer.positionX
         || gameBoard[this.positionX - 1][this.positionY] == "   ")
