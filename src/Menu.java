@@ -45,6 +45,7 @@ public class Menu {
         Console.sleep(2000);
         Menu.main(); // If an invalid choice is entered, display the menu again
     }
+    input.close();
   }
 
   /**
@@ -92,5 +93,6 @@ public class Menu {
         gameOver(loser, winner);
         break;
     }
+    input.close();
   }
 }
