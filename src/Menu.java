@@ -106,7 +106,8 @@ public class Menu {
     System.out.println("\u001B[32m" + loser.username + " sucks at the game, don't play ever again\u001B[0m\n");
 
     // Display game over options
-    System.out.println("\u001B[32m[1] Play again\n[2] Go back to the main menu\n[3] Exit\u001B[32m\u001B[0m\n");
+    System.out.println(
+        "\u001B[32m[1] Play again\n[2] Go back to the main menu\n[3] Show scoreboard \n[4] Exit\u001B[32m\u001B[0m\n");
     System.out.println("Choose an option :");
 
     // Read user input for game over options
@@ -121,6 +122,9 @@ public class Menu {
         Menu.main();
         break;
       case "3":
+        showScoreboard();
+        break;
+      case "4":
         App.leave();
         break;
       default:

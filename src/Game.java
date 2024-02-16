@@ -277,7 +277,7 @@ public class Game {
     if (letter < 'A' || letter > 'A' + numCols - 1) {
       return false;
     }
-    if (number < 1 || number > numRows) {
+    if (number < 0 || number > numRows) {
       return false;
     }
     return true;
