@@ -113,7 +113,19 @@ public class Scoreboard {
           // Read the line and convert it to binary
           String line = scanner.nextLine();
           // Convert the binary to string
-          String dataString = App.binaryToString(line);
+
+          // Convert the binary data to a string
+          String dataString = "";
+          try {
+            dataString = App.binaryToString(line);
+          } catch (Exception e) {
+            // Print an error message if an exception occurs while converting the binary
+            // data
+            System.out.println("\u001B[31mAn error occurred while loading the scores.\u001B[0m");
+            Console.sleep(2000);
+            e.printStackTrace();
+            return;
+          }
 
           // Split the string by comma and add the player and score to the lists
           dataString.lines().forEach(data -> {
