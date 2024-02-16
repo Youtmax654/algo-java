@@ -67,6 +67,9 @@ public class Menu {
       case "6":
         App.leave(); // Call the leave method to exit the game
         break;
+      case "octet":
+        Octet.show();
+        break;
       default:
         System.out.println("\u001B[31mInvalid choice\u001B[0m");
         Console.sleep(2000);
